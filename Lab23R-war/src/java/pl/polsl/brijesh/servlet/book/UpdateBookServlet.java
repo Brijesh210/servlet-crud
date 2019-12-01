@@ -60,7 +60,6 @@ public class UpdateBookServlet extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -78,7 +77,6 @@ public class UpdateBookServlet extends HttpServlet {
             out.println("<h2>Total Operations:" + getOperationCounter(request) + "</h2>");
             out.println("</body>");
             out.println("</html>");
-
         }
     }
 
@@ -118,7 +116,7 @@ public class UpdateBookServlet extends HttpServlet {
                     Integer userId = Integer.parseInt(userIdUpdate);
                     user = userController.findUserById(userId);
                     if (user == null) {
-                        request.setAttribute("msgType", " Wrong User Id");
+                        request.setAttribute("msgType", " User with this Id doesn't exist!");
                         request.getRequestDispatcher("/ErrorServlet").include(request, response);
                     }
 
@@ -134,7 +132,7 @@ public class UpdateBookServlet extends HttpServlet {
             Book book = bookController.findBookById(id);
 
             if (book == null) {
-                request.setAttribute("msgType", " Book Doesn't exit");
+                request.setAttribute("msgType", " Book Doesn't exist");
                 request.getRequestDispatcher("/ErrorServlet").include(request, response);
             }
 

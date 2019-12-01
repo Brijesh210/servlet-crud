@@ -27,10 +27,10 @@ import pl.polsl.brijesh.ejb.model.UserController;
  * @author b___b
  */
 public class FindUserServlet extends HttpServlet {
-    
+
     @EJB
     BookController bookController;
-    
+
     @EJB
     UserController userController;
 
@@ -46,7 +46,7 @@ public class FindUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -61,7 +61,9 @@ public class FindUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -95,8 +97,9 @@ public class FindUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+
+        response.setContentType("text/html;charset=UTF-8");
+
         String findOption = request.getParameter("find");
         List<User> users = new ArrayList<>();
 
@@ -110,22 +113,28 @@ public class FindUserServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(findById);
             } catch (NumberFormatException err) {
-
+                request.setAttribute("msgType", " User id can't be float or empty");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
             }
 
             User user = userController.findUserById(id);
-            users.add(user);
-
+            
+            if (user != null) {
+                users.add(user);
+            }else{
+                request.setAttribute("msgType", " User with this Id doesn't exist");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
+            }
         }
         try (PrintWriter out = response.getWriter()) {
-            
+
             //Counter
             incrementCounter(request);
-            
+
             out.println("<table width='100%' border='2'>");
             out.println("<tr><th>User Id</th><th>User Name</th><th>User Address</th></tr>");
             for (User u : users) {
-                out.println("<tr><td>" + u.getId() + "</td>");
+                out.println("<tr align=\"center\"><td>" + u.getId() + "</td>");
                 out.println("<td>" + u.getName() + "</td>");
                 out.println("<td>" + u.getAddress() + "</td>");
             }
@@ -175,6 +184,7 @@ public class FindUserServlet extends HttpServlet {
             return 0;
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *

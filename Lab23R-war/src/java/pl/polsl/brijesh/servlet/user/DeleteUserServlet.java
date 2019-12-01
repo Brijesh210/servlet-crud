@@ -54,7 +54,9 @@ public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -84,7 +86,9 @@ public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             String userId = request.getParameter("userId");
             Integer id = 0;
@@ -97,19 +101,15 @@ public class DeleteUserServlet extends HttpServlet {
             }
             User user = userController.findUserById(id);
             if (user == null) {
-                request.setAttribute("msgType", " User Id doesn't exit");
+                request.setAttribute("msgType", " User Id doesn't exist");
                 request.getRequestDispatcher("/ErrorServlet").include(request, response);
-//                else if (!user.getBooks().isEmpty()) {
-//                request.setAttribute("msgType", " User has to return books, before can be deleted!");
-//                request.getRequestDispatcher("/ErrorServlet").include(request, response);
-//            }
-            }  else {
-                
-                
+            } else {
 
-                userController.deleteUser(id); 
+                userController.deleteUser(id);
+                
                 //Counter
                 incrementCounter(request);
+                
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
                 out.println("<head>");

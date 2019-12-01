@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pl.polsl.brijesh.ejb.model.BookController;
 import pl.polsl.brijesh.ejb.model.Book;
+import pl.polsl.brijesh.ejb.model.User_;
 
 /**
  *
@@ -56,7 +57,7 @@ public class FindBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -90,7 +91,7 @@ public class FindBookServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
 
         String findOption = request.getParameter("find");
         List<Book> books = new ArrayList<>();
@@ -105,25 +106,32 @@ public class FindBookServlet extends HttpServlet {
             try {
                 id = Integer.parseInt(findById);
             } catch (NumberFormatException err) {
-
+                request.setAttribute("msgType", " User id can't be float");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
             }
 
             Book book = bookController.findBookById(id);
-            books.add(book);
+            if (book != null) {
+                books.add(book);
+            } else {
+                request.setAttribute("msgType", " Book with this Id Doesn't exist ");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
+            }
 
         }
         try (PrintWriter out = response.getWriter()) {
-            
+
             //Counter
             incrementCounter(request);
-            
-            out.println("<table width='100%' border='2'>");
-            out.println("<tr><th>Book Id</th><th>Book Name</th><th>Book Auther</th><th>Book Type</th></tr>");
+
+            out.println("<table width='100%' border='2' align=\"center\">");
+            out.println("<tr><th>Book Id</th><th>Book Name</th><th>Book Auther</th><th>Book Type</th><th>User Id</th></tr>");
             for (Book b : books) {
-                out.println("<tr><td>" + b.getId() + "</td>");
+                out.println("<tr align=\"center\"><td>" + b.getId() + "</td>");
                 out.println("<td>" + b.getName() + "</td>");
                 out.println("<td>" + b.getAuther() + "</td>");
                 out.println("<td>" + b.getType() + "</td>");
+                out.println("<td >" + b.getUser().getId() + "</td>");
             }
             out.println("</table>");
             out.println("</br><a href=\"" + request.getContextPath() + "/\">Go back</a>");

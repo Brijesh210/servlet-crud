@@ -7,11 +7,14 @@ package pl.polsl.brijesh.servlet.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import pl.polsl.brijesh.ejb.model.UserController;
 import pl.polsl.brijesh.ejb.model.User;
 
@@ -22,7 +25,8 @@ import pl.polsl.brijesh.ejb.model.User;
 public class AddUserServlet extends HttpServlet {
 
     @EJB
-    UserController userController; 
+    UserController userController;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -35,7 +39,7 @@ public class AddUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -50,7 +54,9 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -62,11 +68,9 @@ public class AddUserServlet extends HttpServlet {
             out.println("<form action=\"AddUserServlet\" method=\"post\">");
             out.println("User Name: <input type=\"text\" name=\"userName\"><br>");
             out.println("User Address: <input type=\"text\" name=\"userAddress\"><br>");
-            //out.println("Book Type: <input type=\"text\" name=\"bookType\"><br>");
-            //out.println("User Id: <input type=\"text\" name=\"bookUserId\"><br>");
             out.println("<input type=\"submit\" value=\"Submit\">");
             out.println("</form>");
-          //  out.println("<h3>Total Operations:" + getOperationCounter(request) + "</h2>");
+            out.println("<h3>Total Operations:" + getOperationCounter(request) + "</h2>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -83,28 +87,23 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-        
+
+        response.setContentType("text/html;charset=UTF-8");
+
         try (PrintWriter out = response.getWriter()) {
-            
+
             String userName = request.getParameter("userName");
             String userAddress = request.getParameter("userAddress");
 
-//            if (bookName.equals("")) {
-//                // response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Name cannot be blank");
-//                request.setAttribute("msgType", "name cannot be emprty");
-//                request.getRequestDispatcher("/ErrorServlet").include(request, response);
-//            } else if (bookAuther.equals("")) {
-//                request.setAttribute("msgType", "Auther cannot be emprty");
-//                request.getRequestDispatcher("/ErrorServlet").include(request, response);
-//            } else {
-                User user = new User(userName,userAddress);
-                
-                
-                //book.setAuther(bookAuther);
-                //book.setName(bookName);
-                //book.setType(bookType);
+            if (userName.equals("")) {
+                request.setAttribute("msgType", " User name cannot be emprty");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
+            } else {
+                User user = new User(userName, userAddress);
+
                 userController.addUser(user);
+                
+                incrementCounter(request);
 
                 out.println("<!DOCTYPE html>");
                 out.println("<html>");
@@ -118,9 +117,50 @@ public class AddUserServlet extends HttpServlet {
                 out.println("<a href=\"AddUserServlet\">Go To Add user</a>");
                 out.println("</body>");
                 out.println("</html>");
-            
+            }
         }
-        
+
+    }
+
+    private void incrementCounter(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+
+        Map<String, Integer> counterMap
+                = (Map<String, Integer>) session.getAttribute("counterMap");
+
+        if (counterMap == null) {
+            counterMap = new HashMap<>();
+        }
+        String name = "addBook";
+        if (counterMap.containsKey(name)) {
+            counterMap.put(name, counterMap.get(name) + 1);
+        } else {
+            counterMap.put(name, 1);
+            session.setAttribute("counterMap", counterMap);
+        }
+    }
+
+    /**
+     * Method returns counter of performed operations
+     *
+     * @param request servlet request
+     * @return number of performed operations
+     */
+    private int getOperationCounter(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        Map<String, Integer> counterMap
+                = (Map<String, Integer>) session.getAttribute("counterMap");
+        if (counterMap == null) {
+            return 0;
+        }
+        String name = "addBook";
+        if (counterMap.containsKey(name)) {
+            return counterMap.get(name);
+        } else {
+            return 0;
+        }
     }
 
     /**

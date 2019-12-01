@@ -59,7 +59,7 @@ public class AddBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -100,7 +100,7 @@ public class AddBookServlet extends HttpServlet {
             String bookType = request.getParameter("bookType");
             String bookAuther = request.getParameter("bookAuther");
             String bookUserId = request.getParameter("bookUserId");
-            
+
             User user;
             if (!bookUserId.isEmpty()) {
                 try {
@@ -112,11 +112,10 @@ public class AddBookServlet extends HttpServlet {
                     request.setAttribute("msgType", " User id can't be float");
                     request.getRequestDispatcher("/ErrorServlet").include(request, response);
                 }
-            }else {
+            } else {
                 user = null;
             }
 //            if(user != null)
-            
 
             if (bookName.equals("")) {
                 // response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Name cannot be blank");

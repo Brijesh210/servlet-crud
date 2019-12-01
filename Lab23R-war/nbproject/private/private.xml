@@ -3,17 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/ErrorServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/AddBookServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/BookMenuServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/user/AddUserServlet.java</file>
-            <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/user/UserMenuServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/DeleteBookServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/user/DeleteUserServlet.java</file>
-            <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/web/index.html</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/user/UpdateUserServlet.java</file>
-            <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/FindBookServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/UpdateBookServlet.java</file>
+            <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/book/FindBookServlet.java</file>
             <file>file:/C:/Users/b___b/Desktop/Servlet23/Lab23R-war/src/java/pl/polsl/brijesh/servlet/user/FindUserServlet.java</file>
         </group>
     </open-files>

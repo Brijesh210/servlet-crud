@@ -7,16 +7,26 @@ package pl.polsl.brijesh.servlet.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import pl.polsl.brijesh.ejb.model.Book;
+import pl.polsl.brijesh.ejb.model.User;
+import pl.polsl.brijesh.ejb.model.UserController;
 
 /**
  *
  * @author b___b
  */
 public class UpdateUserServlet extends HttpServlet {
+    
+    @EJB
+    UserController userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,18 +40,7 @@ public class UpdateUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateUserServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateUserServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -56,7 +55,24 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Update User Servlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<form action=\"UpdateUserServlet\" method=\"post\">");
+            out.println("User Id: <input type=\"text\" name=\"userId\"><br>");
+            out.println("User Name: <input type=\"text\" name=\"userName\"><br>");
+            out.println("User Address: <input type=\"text\" name=\"userAddress\"><br>");
+            out.println("<input type=\"submit\" value=\"Submit\">");
+            out.println("</form>");
+            out.println("<h2>Total Operations:" + getOperationCounter(request) + "</h2>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     /**
@@ -70,7 +86,110 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       response.setContentType("text/html;charset=UTF-8");
+       
+       try (PrintWriter out = response.getWriter()) {
+
+            String userIdUpdate = request.getParameter("userId");
+            String userNameUpdate = request.getParameter("userName");
+            String userAddressUpdate = request.getParameter("userAddress");
+         
+            User user;
+
+            if (!userIdUpdate.isEmpty()) {
+                try {
+                    Integer userId = Integer.parseInt(userIdUpdate);
+                    user = userController.findUserById(userId);
+                    if (user == null) {
+                        request.setAttribute("msgType", " User with this Id doesn't exist!");
+                        request.getRequestDispatcher("/ErrorServlet").include(request, response);
+                    }
+
+                } catch (NumberFormatException e) {
+                    user = null;
+                    request.setAttribute("msgType", " User id can't be float");
+                    request.getRequestDispatcher("/ErrorServlet").include(request, response);
+                }
+            } else {
+                user = null;
+            }
+
+            Book book = bookController.findBookById(id);
+
+            if (book == null) {
+                request.setAttribute("msgType", " Book Doesn't exist");
+                request.getRequestDispatcher("/ErrorServlet").include(request, response);
+            }
+
+            if (!bookNameUpdate.equals("")) {
+                book.setName(bookNameUpdate);
+            }
+            if (!bookAutherUpdate.equals("")) {
+                book.setAuther(bookAutherUpdate);
+            }
+            if (!bookTypeUpdate.equals("")) {
+                book.setType(bookTypeUpdate);
+            }
+            if (user != null) {
+                book.setUser(user);
+            }
+
+            bookController.updateBook(book);
+            incrementCounter(request);
+
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>[CRUD]Update Book</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Updating a Book</h1>");
+            out.println("<p>Book updated successfully!</p>");
+            out.println("</br><a href=\"" + request.getContextPath() + "/\">Go back</a>");
+            out.println("</body>");
+            out.println("</html>");
+
+        }
+    }
+    private void incrementCounter(HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+
+        Map<String, Integer> counterMap
+                = (Map<String, Integer>) session.getAttribute("counterMap");
+
+        if (counterMap == null) {
+            counterMap = new HashMap<>();
+        }
+        String name = "addUser";
+        if (counterMap.containsKey(name)) {
+            counterMap.put(name, counterMap.get(name) + 1);
+        } else {
+            counterMap.put(name, 1);
+            session.setAttribute("counterMap", counterMap);
+        }
+    }
+
+    /**
+     * Method returns counter of performed operations
+     *
+     * @param request servlet request
+     * @return number of performed operations
+     */
+    private int getOperationCounter(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+
+        Map<String, Integer> counterMap
+                = (Map<String, Integer>) session.getAttribute("counterMap");
+        if (counterMap == null) {
+            return 0;
+        }
+        String name = "addUser";
+        if (counterMap.containsKey(name)) {
+            return counterMap.get(name);
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -81,6 +200,6 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }// </editor-fold> 
 
 }
