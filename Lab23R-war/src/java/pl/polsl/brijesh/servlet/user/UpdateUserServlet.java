@@ -17,16 +17,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pl.polsl.brijesh.ejb.model.Book;
 import pl.polsl.brijesh.ejb.model.User;
-import pl.polsl.brijesh.ejb.model.UserController;
+import pl.polsl.brijesh.ejb.model.UserBean;
 
 /**
  *
  * @author b___b
  */
 public class UpdateUserServlet extends HttpServlet {
-    
+
     @EJB
-    UserController userController;
+    UserBean userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,7 +40,7 @@ public class UpdateUserServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-      
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -86,14 +86,14 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
-       
-       try (PrintWriter out = response.getWriter()) {
+        response.setContentType("text/html;charset=UTF-8");
+
+        try (PrintWriter out = response.getWriter()) {
 
             String userIdUpdate = request.getParameter("userId");
             String userNameUpdate = request.getParameter("userName");
             String userAddressUpdate = request.getParameter("userAddress");
-         
+
             User user;
 
             if (!userIdUpdate.isEmpty()) {
@@ -107,50 +107,43 @@ public class UpdateUserServlet extends HttpServlet {
 
                 } catch (NumberFormatException e) {
                     user = null;
-                    request.setAttribute("msgType", " User id can't be float");
+                    request.setAttribute("0msgType", " User id can't be float");
                     request.getRequestDispatcher("/ErrorServlet").include(request, response);
                 }
             } else {
                 user = null;
             }
 
-            Book book = bookController.findBookById(id);
-
-            if (book == null) {
-                request.setAttribute("msgType", " Book Doesn't exist");
+            if (user == null) {
+                request.setAttribute("msgType", " User Id cannot be empty");
                 request.getRequestDispatcher("/ErrorServlet").include(request, response);
             }
 
-            if (!bookNameUpdate.equals("")) {
-                book.setName(bookNameUpdate);
+            if (!userNameUpdate.equals("")) {
+                user.setName(userNameUpdate);
             }
-            if (!bookAutherUpdate.equals("")) {
-                book.setAuther(bookAutherUpdate);
-            }
-            if (!bookTypeUpdate.equals("")) {
-                book.setType(bookTypeUpdate);
-            }
-            if (user != null) {
-                book.setUser(user);
+            if (!userAddressUpdate.equals("")) {
+                user.setAddress(userAddressUpdate);
             }
 
-            bookController.updateBook(book);
+            userController.updateUser(user);
             incrementCounter(request);
 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>[CRUD]Update Book</title>");
+            out.println("<title> Update User</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Updating a Book</h1>");
-            out.println("<p>Book updated successfully!</p>");
+            out.println("<h1>Updating a User</h1>");
+            out.println("<p>User updated successfully</p>");
             out.println("</br><a href=\"" + request.getContextPath() + "/\">Go back</a>");
             out.println("</body>");
             out.println("</html>");
 
         }
     }
+
     private void incrementCounter(HttpServletRequest request) {
 
         HttpSession session = request.getSession();

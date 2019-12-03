@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import pl.polsl.brijesh.ejb.model.Book;
-import pl.polsl.brijesh.ejb.model.BookController;
+import pl.polsl.brijesh.ejb.model.BookBean;
 import pl.polsl.brijesh.ejb.model.User;
-import pl.polsl.brijesh.ejb.model.UserController;
+import pl.polsl.brijesh.ejb.model.UserBean;
 
 /**
  *
@@ -29,10 +29,10 @@ import pl.polsl.brijesh.ejb.model.UserController;
 public class FindUserServlet extends HttpServlet {
 
     @EJB
-    BookController bookController;
+    BookBean bookController;
 
     @EJB
-    UserController userController;
+    UserBean userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

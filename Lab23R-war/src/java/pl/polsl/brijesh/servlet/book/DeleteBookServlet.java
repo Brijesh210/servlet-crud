@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pl.polsl.brijesh.ejb.model.BookController;
+import pl.polsl.brijesh.ejb.model.BookBean;
 
 /**
  *
@@ -24,7 +24,7 @@ import pl.polsl.brijesh.ejb.model.BookController;
 public class DeleteBookServlet extends HttpServlet {
 
     @EJB
-    BookController bookController;
+    BookBean bookController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -59,7 +59,7 @@ public class DeleteBookServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DeleteBookServlet</title>");
+            out.println("<title> Delete Book Servlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<form action=\"DeleteBookServlet\" method=\"post\">");

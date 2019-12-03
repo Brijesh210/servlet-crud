@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pl.polsl.brijesh.ejb.model.BookController;
+import pl.polsl.brijesh.ejb.model.BookBean;
 import pl.polsl.brijesh.ejb.model.Book;
 import pl.polsl.brijesh.ejb.model.User_;
 
@@ -28,7 +28,7 @@ import pl.polsl.brijesh.ejb.model.User_;
 public class FindBookServlet extends HttpServlet {
 
     @EJB
-    BookController bookController;
+    BookBean bookController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +63,7 @@ public class FindBookServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FindBookServlet</title>");
+            out.println("<title> Find Book Servlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1> Find Book by Id  and Find All Book</h1>");
@@ -129,7 +129,7 @@ public class FindBookServlet extends HttpServlet {
             for (Book b : books) {
                 out.println("<tr align=\"center\"><td>" + b.getId() + "</td>");
                 out.println("<td>" + b.getName() + "</td>");
-                out.println("<td>" + b.getAuther() + "</td>");
+                out.println("<td>" + b.getAuthor() + "</td>");
                 out.println("<td>" + b.getType() + "</td>");
                 out.println("<td >" + b.getUser().getId() + "</td>");
             }

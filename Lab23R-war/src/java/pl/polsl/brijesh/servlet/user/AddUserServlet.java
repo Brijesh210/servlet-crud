@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pl.polsl.brijesh.ejb.model.UserController;
+import pl.polsl.brijesh.ejb.model.UserBean;
 import pl.polsl.brijesh.ejb.model.User;
 
 /**
@@ -25,7 +25,7 @@ import pl.polsl.brijesh.ejb.model.User;
 public class AddUserServlet extends HttpServlet {
 
     @EJB
-    UserController userController;
+    UserBean userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,7 +62,7 @@ public class AddUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddUserServlet</title>");
+            out.println("<title> Add User Servlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<form action=\"AddUserServlet\" method=\"post\">");

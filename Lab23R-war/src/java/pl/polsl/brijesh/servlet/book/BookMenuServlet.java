@@ -35,7 +35,7 @@ public class BookMenuServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BookMenuServlet</title>");            
+            out.println("<title> Book Menu Servlet</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet BookMenuServlet at " + request.getContextPath() + "</h1>");

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pl.polsl.brijesh.ejb.model.UserController;
+import pl.polsl.brijesh.ejb.model.UserBean;
 import pl.polsl.brijesh.ejb.model.User;
 
 /**
@@ -25,7 +25,7 @@ import pl.polsl.brijesh.ejb.model.User;
 public class DeleteUserServlet extends HttpServlet {
 
     @EJB
-    UserController userController;
+    UserBean userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

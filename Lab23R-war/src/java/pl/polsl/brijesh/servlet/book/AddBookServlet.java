@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.brijesh.servlet.book;
 
 import java.io.IOException;
@@ -15,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import pl.polsl.brijesh.ejb.model.BookController;
-import pl.polsl.brijesh.ejb.model.UserController;
+import pl.polsl.brijesh.ejb.model.BookBean;
+import pl.polsl.brijesh.ejb.model.UserBean;
 import pl.polsl.brijesh.ejb.model.Book;
 import pl.polsl.brijesh.ejb.model.User;
 
@@ -27,10 +22,10 @@ import pl.polsl.brijesh.ejb.model.User;
 public class AddBookServlet extends HttpServlet {
 
     @EJB
-    BookController bookController;
+    BookBean bookController;
 
     @EJB
-    UserController userController;
+    UserBean userController;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,7 +60,7 @@ public class AddBookServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddBookServlet</title>");
+            out.println("<title>Add Book Servlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<form action=\"AddBookServlet\" method=\"post\">");
@@ -128,9 +123,6 @@ public class AddBookServlet extends HttpServlet {
             }
 
             Book book = new Book(bookName, bookType, bookAuther, user);
-//                book.setAuther(bookAuther);
-//                book.setName(bookName);
-//                book.setType(bookType);
 
             bookController.addBook(book);
 

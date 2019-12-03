@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.brijesh.ejb.model;
 
 import java.util.List;
@@ -10,37 +5,65 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pl.polsl.brijesh.ejb.model.User;
 
 /**
+ * Bean for performing operations on User table
  *
- * @author b___b
+ * @author Brijesh Varsani
+ * @version 1.0
  */
 @Stateless
 @LocalBean
-public class UserController {
+public class UserBean {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    /**
+     * Entity manager, perform operation
+     */
     @PersistenceContext
     EntityManager em;
 
+    /**
+     * Finding a User with id
+     *
+     * @param id id of user to look
+     * @return User Object
+     */
     public User findUserById(int id) {
         return em.find(User.class, id);
     }
 
+    /**
+     * Adding User to table
+     *
+     * @param user object to add
+     */
     public void addUser(User user) {
         em.persist(user);
     }
 
+    /**
+     * Find all User
+     *
+     * @return list of user
+     */
     public List<User> getAllUsers() {
         return em.createNamedQuery(User.FIND_ALL_USER_QUERY).getResultList();
     }
 
-    public void updateuser(User user) {
+    /**
+     * Update User
+     *
+     * @param user object to update
+     */
+    public void updateUser(User user) {
         em.merge(user);
     }
 
+    /**
+     * Delete user with by id
+     *
+     * @param id to be delete
+     */
     public void deleteUser(Integer id) {
         em.remove(findUserById(id));
     }

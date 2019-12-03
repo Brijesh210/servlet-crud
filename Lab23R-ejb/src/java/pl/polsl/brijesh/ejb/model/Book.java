@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.polsl.brijesh.ejb.model;
 
 import java.io.Serializable;
@@ -31,6 +26,9 @@ import javax.persistence.Table;
 @Table(name = "books")
 public class Book implements Serializable {
 
+    /*
+    String containing name of the named query
+    */
     public static String FIND_ALL_QUERY = "Book.findAllBooks";
 
     /**
@@ -54,7 +52,7 @@ public class Book implements Serializable {
     private String type;
 
     /**
-     * Book's author column
+     * Book author column
      */
     @Column(name = "author")
     private String author;
@@ -66,18 +64,29 @@ public class Book implements Serializable {
     @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
+    /**
+     * Default Constructor
+     */
     public Book() {
     }
 
-    public Book(String bookName, String bookType, String bookAuther,User user) {
+    /**
+     * Constructor with para
+     * 
+     * @param bookName book name
+     * @param bookType book type
+     * @param bookAuthor book author
+     * @param user user object
+     */
+    public Book(String bookName, String bookType, String bookAuthor,User user) {
         this.name = bookName;
-        this.author = bookAuther;
+        this.author = bookAuthor;
         this.type = bookType;
         this.user = user;
     }
 
     /**
-     * Book's user getter
+     * Book user getter
      *
      * @return User
      */
@@ -90,7 +99,7 @@ public class Book implements Serializable {
     }
 
     /**
-     * Book's user setter
+     * Book user setter
      *
      * @param user New User
      */
@@ -99,9 +108,9 @@ public class Book implements Serializable {
     }
 
     /**
-     * getter book's name
+     * getter book name
      *
-     * @return String book's name
+     * @return String book name
      */
     public String getName() {
         return name;
@@ -139,7 +148,7 @@ public class Book implements Serializable {
      *
      * @return String book's author
      */
-    public String getAuther() {
+    public String getAuthor() {
         return author;
     }
 
@@ -148,7 +157,7 @@ public class Book implements Serializable {
      *
      * @param author of the book
      */
-    public void setAuther(String author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -207,10 +216,10 @@ public class Book implements Serializable {
      */
     @Override
     public String toString() {
-        //return "Book{" + "id=" + id + ", user="  + ", name=" + name + ", type=" + type + ", auther=" + auther + '}';
+
         return "Id = " + id + "\n"
                 + "Book Name: " + name + "\n"
-                + "Book Auther: " + author + "\n"
+                + "Book Author: " + author + "\n"
                 + "Book type: " + type + "\n"
                 + "User id: " + user + "\n";
     }

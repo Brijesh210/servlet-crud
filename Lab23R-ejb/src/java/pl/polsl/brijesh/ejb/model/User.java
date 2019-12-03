@@ -34,7 +34,11 @@ import javax.persistence.Table;
 })
 public class User implements Serializable {
 
+    /*
+    String containing name of the named query
+     */
     public static String FIND_ALL_USER_QUERY = "User.findAllUsers";
+
     /**
      * Primary key value
      */
@@ -60,23 +64,40 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Book> books = new ArrayList<>();
 
+    /**
+     * Constructor User with para
+     *
+     * @param userName user name
+     * @param userAddress user address
+     */
+    public User(String userName, String userAddress) {
+        this.name = userName;
+        this.address = userAddress;
+    }
+
+    /**
+     * Default constructor
+     */
+    public User() {
+    }
+
+    /**
+     * get List of Books
+     *
+     * @return List of books
+     */
     public List<Book> getBooks() {
         return books;
     }
 
+    /**
+     * Set List of Book
+     *
+     * @param books lists
+     */
     public void setBooks(List<Book> books) {
         this.books = books;
     }
-
-    public User(String userName, String userAddress) {
-        this.name =userName;
-        this.address = userAddress;
-    }
-
-    public User() {
-    }
-
-  
 
     /**
      * get address of user
